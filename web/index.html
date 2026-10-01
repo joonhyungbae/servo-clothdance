@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>두드리면 춤추는 꼭두</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='6' fill='%23f0eee7'/%3E%3C/svg%3E" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="app">
+  <div class="left">
+    <div id="stage"><canvas id="out"></canvas></div>
+    <div class="bar">
+      <button id="listen">듣기 시작</button>
+      <button id="tap">손으로 치기</button>
+      <button id="rec">녹화 시작</button>
+      <button id="snap">사진 저장</button>
+      <button id="only">무대만</button>
+      <span class="fps" id="fps"></span>
+    </div>
+  </div>
+
+  <aside>
+    <div class="card">
+      <h2>무엇을 듣나</h2>
+      <select id="source">
+        <option value="mic">마이크</option>
+        <option value="sim">가짜 타격</option>
+      </select>
+      <div id="status">「듣기 시작」을 누르면 마이크가 열립니다</div>
+    </div>
+
+    <div class="card">
+      <h2>타격</h2>
+      <div class="meter"><span>지금 소리</span><i><b id="m-level"></b></i><output id="v-level"></output></div>
+      <div class="meter"><span>마지막 세기</span><i><b id="m-hit"></b></i><output id="v-hit"></output></div>
+      <div class="meter"><span>몰아치는 정도</span><i><b id="m-energy"></b></i><output id="v-energy"></output></div>
+      <div class="hint" id="hits">아직 들은 타격 없음</div>
+    </div>
+
+    <div class="card">
+      <h2>모터로 나가는 각도 (규칙은 web/move.js)</h2>
+      <div class="meter out"><span>왼팔</span><i><b id="m-left"></b></i><output id="v-left"></output></div>
+      <div class="meter out"><span>오른팔</span><i><b id="m-right"></b></i><output id="v-right"></output></div>
+      <div class="meter out"><span>몸통</span><i><b id="m-body"></b></i><output id="v-body"></output></div>
+      <div class="hint" id="wire">./start.sh 로 열면 아두이노와 OSC 로 같은 각도가 나갑니다</div>
+    </div>
+
+    <div class="card">
+      <h2>조절</h2>
+      <div id="params"></div>
+      <button id="reset" style="margin-top:6px">처음 값으로</button>
+    </div>
+
+    <div class="card keys">
+      스페이스 두드리기 · H 조절판 숨기기 · F 전체 화면 · R 녹화<br />
+      조절한 값은 이 브라우저에 남습니다.
+    </div>
+  </aside>
+</div>
+<script type="module" src="app.js"></script>
+</body>
+</html>

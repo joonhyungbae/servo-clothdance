@@ -66,18 +66,37 @@ export class Stage {
     const c = this.ctx;
     const S = this.scale;
 
-    // 바탕과 바닥. 뒤는 어둡게 두고 꼭두 발밑만 밝힌다
+    // 바탕. 어두운 무대지만 바닥과 뒤벽이 보일 만큼은 밝혀 둔다.
+    // 까맣게만 두면 화면이 꺼진 것처럼 보이고, 검정 갓도 바탕에 묻힌다.
     const bg = c.createLinearGradient(0, 0, 0, this.h);
-    bg.addColorStop(0, "#0b0c0d");
-    bg.addColorStop(1, "#15171a");
+    bg.addColorStop(0, "#1b1d21");
+    bg.addColorStop(0.62, "#24262b");
+    bg.addColorStop(1, "#2d3036");
     c.fillStyle = bg;
     c.fillRect(0, 0, this.w, this.h);
-    const pool = c.createRadialGradient(this.cx, this.baseY, S * 0.05, this.cx, this.baseY, S * 0.9);
-    pool.addColorStop(0, `rgba(255,243,220,${0.1 + s.energy * 0.1})`);
+
+    // 뒤에서 비추는 빛 한 덩어리. 꼭두의 윤곽이 바탕에서 떨어져 나온다
+    const halo = c.createRadialGradient(this.cx, this.baseY - S * 0.55, S * 0.05, this.cx, this.baseY - S * 0.4, S * 1.1);
+    halo.addColorStop(0, `rgba(255,246,228,${0.16 + s.energy * 0.12})`);
+    halo.addColorStop(1, "rgba(255,246,228,0)");
+    c.fillStyle = halo;
+    c.fillRect(0, 0, this.w, this.h);
+
+    // 바닥선. 꼭두가 떠 있어 보이지 않게 한다
+    c.strokeStyle = "rgba(255,246,228,0.14)";
+    c.lineWidth = 1;
+    c.beginPath();
+    c.moveTo(0, this.baseY);
+    c.lineTo(this.w, this.baseY);
+    c.stroke();
+
+    // 발밑에 고이는 빛과 그림자
+    const pool = c.createRadialGradient(this.cx, this.baseY, S * 0.03, this.cx, this.baseY, S * 0.8);
+    pool.addColorStop(0, `rgba(255,243,220,${0.12 + s.energy * 0.1})`);
     pool.addColorStop(1, "rgba(255,243,220,0)");
     c.fillStyle = pool;
-    c.fillRect(0, this.baseY - S * 0.9, this.w, S * 1.1);
-    c.fillStyle = "rgba(0,0,0,0.45)";
+    c.fillRect(0, this.baseY - S * 0.8, this.w, S * 0.9);
+    c.fillStyle = "rgba(0,0,0,0.4)";
     c.beginPath();
     c.ellipse(this.cx, this.baseY + S * 0.012, S * 0.17, S * 0.022, 0, 0, Math.PI * 2);
     c.fill();
@@ -165,14 +184,18 @@ export class Stage {
     c.beginPath();
     c.arc(j.head.x, j.head.y, S * 0.055, 0, Math.PI * 2);
     c.fill();
-    // 검정 갓. 챙과 통을 두 번에 그린다
+    // 검정 갓. 챙과 통을 두 번에 그린다. 어두운 바탕에 묻히지 않게 테두리에 빛을 둔다
     c.fillStyle = "#17181a";
+    c.strokeStyle = "rgba(255,246,228,0.5)";
+    c.lineWidth = Math.max(1, S * 0.004);
     c.beginPath();
     c.ellipse(j.head.x, j.head.y - S * 0.035, S * 0.125, S * 0.022, 0, 0, Math.PI * 2);
     c.fill();
+    c.stroke();
     c.beginPath();
     c.ellipse(j.head.x, j.head.y - S * 0.065, S * 0.045, S * 0.035, 0, 0, Math.PI * 2);
     c.fill();
+    c.stroke();
   }
 
   /* 팔. 안쪽은 얇은 금속 막대이고 겉은 도포 소매다. 소매 쪽만 보이게 그린다 */

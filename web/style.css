@@ -12,7 +12,7 @@ body { margin:0; background:var(--bg); color:var(--fg);
 .app { display:grid; grid-template-columns: minmax(0,1fr) 340px; gap:16px; padding:16px; min-height:100%; }
 .left { display:flex; flex-direction:column; min-width:0; position:sticky; top:16px; height:calc(100vh - 32px); }
 #stage { flex:1; min-height:0; width:100%; }
-#out { display:block; width:100%; height:100%; border-radius:10px; background:#0b0c0d; }
+#out { display:block; width:100%; height:100%; border-radius:10px; background:#24262b; }
 .bar { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; align-items:center; }
 .bar .fps { color:var(--dim); font-variant-numeric:tabular-nums; margin-left:auto; }
 aside { display:flex; flex-direction:column; gap:12px; min-width:0; }
